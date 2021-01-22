@@ -25,7 +25,8 @@ namespace RestWithASPNETUdemy.Repository
 
         public User RefreshUserInfo(User user)
         {
-            var result = dataset.SingleOrDefault(p => p.Id.Equals(user.Id));
+            if (!_context.Users.Any(u => u.Id.Equals(user.Id))) return null;
+            var result = _context.Users.SingleOrDefault(p => p.Id.Equals(user.Id));
 
             if (result != null)
             {
@@ -40,10 +41,7 @@ namespace RestWithASPNETUdemy.Repository
                     throw;
                 }
             }
-            else
-            {
-                return null;
-            }
+            return result;
         }
 
         private string ComputeHash(string input, SHA256CryptoServiceProvider algorithm)
