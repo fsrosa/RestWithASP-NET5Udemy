@@ -23,6 +23,8 @@ using RestWithASPNETUdemy.Configurations;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RestWithASPNETUdemy
 {
@@ -69,6 +71,14 @@ namespace RestWithASPNETUdemy
                     ValidAudience = tokenConfigurations.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
                 };
+            });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+
             });
 
             services.AddCors(options => options.AddDefaultPolicy(builder =>
