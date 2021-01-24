@@ -15,7 +15,6 @@ namespace RestWithASPNETUdemy.Hypermedia
         {
 
         }
-
         public virtual bool CanEnrich(Type contentType)
         {
             return contentType == typeof(T) || contentType == typeof(List<T>);
@@ -31,13 +30,12 @@ namespace RestWithASPNETUdemy.Hypermedia
             }
             return false;
         }
-
         public async Task Enrich(ResultExecutingContext response)
         {
             var urlHelper = new UrlHelperFactory().GetUrlHelper(response);
             if (response.Result is OkObjectResult okObjectResult)
-            {
-                if (okObjectResult.Value is T model)
+            { 
+                if(okObjectResult.Value is T model)
                 {
                     await EnrichModel(model, urlHelper);
                 }
@@ -50,9 +48,7 @@ namespace RestWithASPNETUdemy.Hypermedia
                     });
                 }
             }
-
             await Task.FromResult<object>(null);
         }
     }
-
 }

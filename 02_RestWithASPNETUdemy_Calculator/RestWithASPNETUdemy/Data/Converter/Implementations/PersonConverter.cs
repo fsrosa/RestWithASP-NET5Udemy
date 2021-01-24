@@ -17,10 +17,10 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
                 FirstName = origin.FirstName,
                 LastName = origin.LastName,
                 Address = origin.Address,
-                Gender = origin.Gender,
+                Gender = origin.Gender
             };
-           
         }
+
         public PersonVO Parse(Person origin)
         {
             if (origin == null) return null;
@@ -30,7 +30,7 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
                 FirstName = origin.FirstName,
                 LastName = origin.LastName,
                 Address = origin.Address,
-                Gender = origin.Gender,
+                Gender = origin.Gender
             };
         }
 
@@ -39,6 +39,7 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
             if (origin == null) return null;
             return origin.Select(item => Parse(item)).ToList();
         }
+
         public List<PersonVO> Parse(List<Person> origin)
         {
             if (origin == null) return null;

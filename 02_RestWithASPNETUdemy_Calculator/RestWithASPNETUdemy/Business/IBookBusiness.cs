@@ -10,6 +10,5 @@ namespace RestWithASPNETUdemy.Business
         List<BookVO> FindAll();
         BookVO Update(BookVO book);
         void Delete(long id);
-
     }
 }

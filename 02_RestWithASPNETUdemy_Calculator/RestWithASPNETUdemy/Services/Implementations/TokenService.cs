@@ -31,7 +31,7 @@ namespace RestWithASPNETUdemy.Services.Implementations
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(_configuration.Minutes),
                 signingCredentials: signinCredentials
-                );
+            );
             string tokenString = new JwtSecurityTokenHandler().WriteToken(options);
             return tokenString;
         }
@@ -39,18 +39,15 @@ namespace RestWithASPNETUdemy.Services.Implementations
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
-            {
+            using (var rng = RandomNumberGenerator.Create()) {
                 rng.GetBytes(randomNumber);
                 return Convert.ToBase64String(randomNumber);
             };
-            
         }
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
-            var tokenValidationParameters = new TokenValidationParameters
-            {
+            var tokenValidationParameters = new TokenValidationParameters{
                 ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
@@ -65,8 +62,9 @@ namespace RestWithASPNETUdemy.Services.Implementations
             if (jwtSecurityToken == null ||
                 !jwtSecurityToken.Header.Alg.Equals(
                     SecurityAlgorithms.HmacSha256,
-                    StringComparison.InvariantCulture)) 
+                    StringComparison.InvariantCulture))
                 throw new SecurityTokenException("Invalid Token");
+
             return principal;
         }
     }

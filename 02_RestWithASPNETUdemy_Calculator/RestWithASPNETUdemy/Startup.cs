@@ -5,12 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RestWithASPNETUdemy.Model.Context;
-using RestWithASPNETUdemy.Business.Implementations;
-using System;
-using System.Collections.Generic;
 using RestWithASPNETUdemy.Business;
+using RestWithASPNETUdemy.Business.Implementations;
 using RestWithASPNETUdemy.Repository;
 using Serilog;
+using System;
+using System.Collections.Generic;
 using RestWithASPNETUdemy.Repository.Generic;
 using Microsoft.Net.Http.Headers;
 using RestWithASPNETUdemy.Hypermedia.Filters;
@@ -24,7 +24,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 
 namespace RestWithASPNETUdemy
@@ -43,7 +42,6 @@ namespace RestWithASPNETUdemy
                 .CreateLogger();
         }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -61,7 +59,8 @@ namespace RestWithASPNETUdemy
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(options => {
+            .AddJwtBearer(options =>
+            {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -79,7 +78,6 @@ namespace RestWithASPNETUdemy
                 auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser().Build());
-
             });
 
             services.AddCors(options => options.AddDefaultPolicy(builder =>
@@ -93,7 +91,7 @@ namespace RestWithASPNETUdemy
 
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
-
+            
             if (Environment.IsDevelopment())
             {
                 MigrateDatabase(connection);
@@ -114,26 +112,25 @@ namespace RestWithASPNETUdemy
 
             services.AddSingleton(filterOptions);
 
-            // Versionamento de APIs
+            //Versioning API
             services.AddApiVersioning();
 
-            services.AddSwaggerGen(c =>
-            {
+            services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "REST API's from Zero to Azure with ASP.NET Core 5 and Docker",
+                        Title = "REST API's From 0 to Azure with ASP.NET Core 5 and Docker",
                         Version = "v1",
-                        Description = "General Descriptions",
+                        Description = "API RESTful developed in course 'REST API's From 0 to Azure with ASP.NET Core 5 and Docker'",
                         Contact = new OpenApiContact
                         {
-                            Name = "Fabrício Rosa",
-                            Url = new Uri("https://github.com/fsrosa")
+                            Name = "Leandro Costa",
+                            Url = new Uri("https://github.com/leandrocgsi")
                         }
                     });
             });
 
-            // Dependency Injection
+            //Dependency Injection
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
             services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
@@ -144,7 +141,6 @@ namespace RestWithASPNETUdemy
 
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
-
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -163,9 +159,9 @@ namespace RestWithASPNETUdemy
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Título - v1");
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "REST API's From 0 to Azure with ASP.NET Core 5 and Docker - v1");
             });
 
             var option = new RewriteOptions();

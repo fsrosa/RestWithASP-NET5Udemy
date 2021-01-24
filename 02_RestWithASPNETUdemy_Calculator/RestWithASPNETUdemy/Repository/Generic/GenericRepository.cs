@@ -12,7 +12,6 @@ namespace RestWithASPNETUdemy.Repository.Generic
         private MySQLContext _context;
 
         private DbSet<T> dataset;
-
         public GenericRepository(MySQLContext context)
         {
             _context = context;
@@ -28,6 +27,7 @@ namespace RestWithASPNETUdemy.Repository.Generic
         {
             return dataset.SingleOrDefault(p => p.Id.Equals(id));
         }
+
         public T Create(T item)
         {
             try
@@ -45,7 +45,6 @@ namespace RestWithASPNETUdemy.Repository.Generic
         public T Update(T item)
         {
             var result = dataset.SingleOrDefault(p => p.Id.Equals(item.Id));
-
             if (result != null)
             {
                 try
@@ -58,7 +57,8 @@ namespace RestWithASPNETUdemy.Repository.Generic
                 {
                     throw;
                 }
-            } else
+            }
+            else
             {
                 return null;
             }
@@ -67,7 +67,6 @@ namespace RestWithASPNETUdemy.Repository.Generic
         public void Delete(long id)
         {
             var result = dataset.SingleOrDefault(p => p.Id.Equals(id));
-
             if (result != null)
             {
                 try
@@ -81,6 +80,7 @@ namespace RestWithASPNETUdemy.Repository.Generic
                 }
             }
         }
+
         public bool Exists(long id)
         {
             return dataset.Any(p => p.Id.Equals(id));

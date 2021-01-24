@@ -17,10 +17,10 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
                 Author = origin.Author,
                 LaunchDate = origin.LaunchDate,
                 Price = origin.Price,
-                Title = origin.Title,
+                Title = origin.Title
             };
-           
         }
+
         public BookVO Parse(Book origin)
         {
             if (origin == null) return null;
@@ -30,7 +30,7 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
                 Author = origin.Author,
                 LaunchDate = origin.LaunchDate,
                 Price = origin.Price,
-                Title = origin.Title,
+                Title = origin.Title
             };
         }
 
@@ -39,6 +39,7 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
             if (origin == null) return null;
             return origin.Select(item => Parse(item)).ToList();
         }
+
         public List<BookVO> Parse(List<Book> origin)
         {
             if (origin == null) return null;
